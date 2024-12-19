@@ -1,0 +1,17 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{DEPLOYMENT_NAME}}-scaledobject
+  namespace: {{NAMESPACE}}
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: {{DEPLOYMENT_NAME}}
+  minReplicaCount: {{MIN_REPLICAS}}
+  maxReplicaCount: {{MAX_REPLICAS}}
+  triggers:
+  - type: cpu
+    metadata:
+      type: Utilization
+      value: "{{TARGET_CPU_UTILIZATION}}"
+
