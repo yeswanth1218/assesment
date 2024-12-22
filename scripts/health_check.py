@@ -1,4 +1,3 @@
-#health_check.py
 import os
 import json
 import sys

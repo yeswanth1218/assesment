@@ -2,7 +2,7 @@ import os
 from common import run_cmd, render_template, apply_manifest, create_namespace
 
 if __name__ == "__main__":
-    # Load variables from environment
+    # Loading variables from .env file
     namespace = os.getenv("NAMESPACE", "myapp")
     deployment_name = os.getenv("DEPLOYMENT_NAME", "my-nginx")
     image = os.getenv("IMAGE", "nginx:latest")
@@ -15,13 +15,10 @@ if __name__ == "__main__":
     max_replicas = os.getenv("MAX_REPLICAS", "5")
     target_cpu_utilization = os.getenv("TARGET_CPU_UTILIZATION", "50")
 
-    # Ensure cluster connection (optional)
-    # from common import check_cluster_connection
-    # check_cluster_connection()
 
     create_namespace(namespace)
 
-    # Render and apply Deployment
+    # Render and applying Deployment and the template is being pickd from templates folder
     deployment_yaml = render_template("templates/deployment_template.yaml", {
         "DEPLOYMENT_NAME": deployment_name,
         "NAMESPACE": namespace,
@@ -34,7 +31,7 @@ if __name__ == "__main__":
     })
     apply_manifest(deployment_yaml)
 
-    # Render and apply Service
+    # Render and applying Service with the reference template avvailable in the "template" folder
     service_yaml = render_template("templates/service_template.yaml", {
         "DEPLOYMENT_NAME": deployment_name,
         "NAMESPACE": namespace,
@@ -42,7 +39,7 @@ if __name__ == "__main__":
     })
     apply_manifest(service_yaml)
 
-    # Render and apply KEDA ScaledObject
+    # Applying KEDA ScaledObject
     scaledobject_yaml = render_template("templates/keda_scaledobject_template.yaml", {
         "DEPLOYMENT_NAME": deployment_name,
         "NAMESPACE": namespace,

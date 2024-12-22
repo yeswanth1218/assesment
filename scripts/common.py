@@ -3,7 +3,7 @@ import sys
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # Load .env file
+load_dotenv()  
 
 def run_cmd(cmd):
     """Run a shell command and return stdout if successful; exit on error."""
@@ -35,7 +35,7 @@ def check_cluster_connection():
 
 def apply_manifest(yaml_content):
     """Apply a YAML manifest to the cluster."""
-    # Ensure the content is passed as text
+    
     proc = subprocess.run("kubectl apply -f -", input=yaml_content, shell=True, capture_output=True, text=True)
     if proc.returncode != 0:
         print("Error applying manifest:")
